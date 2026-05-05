@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portafolio Fotográfico | Experiencias Inolvidables</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#inicio" class="logo-link">
+                <img src="images/logo.png" alt="Logo" class="logo" onerror="this.src='https://via.placeholder.com/180x60/14141e/ffffff?text=LOGO+AQUI'">
+            </a>
+            <ul class="nav-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header id="inicio" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Capturando momentos, <span>creando legados</span></h1>
+            <p>Fotografía profesional con un enfoque artístico y emocional.</p>
+            <a href="#servicios" class="btn-primary">Ver Portafolio</a>
+        </div>
+    </header>
+
+    <main id="servicios" class="services-section">
+        <div class="container">
+            <h2 class="section-title">Nuestros Servicios</h2>
+            <div class="title-separator"></div>
+            
+            <div id="grid-servicios" class="services-grid">
+                <!-- Tarjetas inyectadas dinámicamente por JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <footer id="contacto" class="footer">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <img src="images/logo.png" alt="Logo Footer" class="footer-logo" onerror="this.src='https://via.placeholder.com/150x50/050508/ffffff?text=LOGO+AQUI'">
+                <p>Inmortalizando tu historia con la mejor calidad visual.</p>
+                <div class="footer-contact-info">
+                    <p>📍 Población de Cuatro Cañadas</p>
+                    <p>📞 Ref: Liliana Mamani Mendieta (+591 63585285)</p>
+                </div>
+            </div>
+            <div class="footer-social">
+                <p>&copy; 2026. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
