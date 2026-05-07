@@ -59,6 +59,16 @@ body {
     margin-top: 2rem;
 }
 
+/* SPA Animations */
+.fade-in-section {
+    animation: fadeInSection 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeInSection {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 /* Reveal Animations */
 .reveal {
     opacity: 0;
@@ -333,6 +343,7 @@ body {
 /* Sections Global */
 section {
     padding: 120px 0;
+    min-height: 100vh;
 }
 
 .section-header {
@@ -544,6 +555,10 @@ section {
     background-color: #050508;
     padding: 80px 0 30px;
     border-top: 1px solid var(--glass-border);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .footer-grid {

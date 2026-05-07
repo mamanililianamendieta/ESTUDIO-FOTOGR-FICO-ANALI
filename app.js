@@ -24,7 +24,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const contenedorPortafolio = document.getElementById('masonry-grid');
     const navbar = document.getElementById('navbar');
     const mobileToggle = document.getElementById('mobile-toggle');
-    const navLinks = document.getElementById('nav-links');
+    const navLinksContainer = document.getElementById('nav-links');
+    const allLinks = document.querySelectorAll('a[href^="#"]');
+    const sections = [
+        document.getElementById('inicio'),
+        document.getElementById('portafolio'),
+        document.getElementById('servicios'),
+        document.getElementById('contacto')
+    ];
     const yearSpan = document.getElementById('current-year');
 
     // --- Render Functions ---
@@ -84,20 +91,84 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Navbar Scroll Effect
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
+    // --- SPA Navigation Logic (Single Page Application) ---
+    const navigateToSection = (targetId) => {
+        // Hide all sections
+        sections.forEach(sec => {
+            if (sec) {
+                sec.style.display = 'none';
+                sec.classList.remove('fade-in-section');
+            }
+        });
+
+        // Show targeted section
+        const targetSection = document.getElementById(targetId);
+        if (targetSection) {
+            // Apply proper display based on section type
+            if (targetId === 'inicio') {
+                targetSection.style.display = 'flex';
+            } else {
+                targetSection.style.display = 'block';
+            }
+            
+            // Add animation class
+            setTimeout(() => {
+                targetSection.classList.add('fade-in-section');
+                
+                // Trigger reveals inside the section
+                const reveals = targetSection.querySelectorAll('.reveal');
+                reveals.forEach(el => el.classList.add('active'));
+            }, 50);
+        }
+
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        // Always make navbar background dark when not in "inicio"
+        if (targetId !== 'inicio') {
             navbar.classList.add('scrolled');
-        } else {
+        } else if (window.scrollY < 50) {
             navbar.classList.remove('scrolled');
+        }
+    };
+
+    // Attach click events to all anchor links
+    allLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            const targetId = link.getAttribute('href').substring(1);
+            if (document.getElementById(targetId)) {
+                e.preventDefault();
+                navigateToSection(targetId);
+                
+                // Close mobile menu if open
+                if (navLinksContainer.classList.contains('active')) {
+                    navLinksContainer.classList.remove('active');
+                    const icon = mobileToggle.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            }
+        });
+    });
+
+    // Navbar Scroll Effect (only relevant if page content is long, but kept for safety)
+    window.addEventListener('scroll', () => {
+        // Only toggle if we are on the 'inicio' page
+        const inicioSec = document.getElementById('inicio');
+        if (inicioSec && inicioSec.style.display !== 'none') {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
         }
     });
 
     // Mobile Menu Toggle
     mobileToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
+        navLinksContainer.classList.toggle('active');
         const icon = mobileToggle.querySelector('i');
-        if (navLinks.classList.contains('active')) {
+        if (navLinksContainer.classList.contains('active')) {
             icon.classList.remove('fa-bars');
             icon.classList.add('fa-times');
         } else {
@@ -106,44 +177,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Close mobile menu when clicking a link
-    navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            navLinks.classList.remove('active');
-            const icon = mobileToggle.querySelector('i');
-            icon.classList.remove('fa-times');
-            icon.classList.add('fa-bars');
-        });
-    });
-
-    // --- Intersection Observer for Reveal Animations ---
-    const initScrollAnimations = () => {
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.15
-        };
-
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    observer.unobserve(entry.target); // Only animate once
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.reveal').forEach(element => {
-            observer.observe(element);
-        });
-    };
-
     // --- Initialization ---
     if (yearSpan) yearSpan.textContent = new Date().getFullYear();
     renderizarPortafolio();
     renderizarServicios();
     asignarEventosWhatsApp();
     
-    // Slight delay for animations to work properly on load
-    setTimeout(initScrollAnimations, 100);
+    // Start by showing only the hero (inicio)
+    navigateToSection('inicio');
 });
